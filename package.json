@@ -1,6 +1,6 @@
 {
   "name": "adonis-bull-provider",
-  "version": "0.2.0",
+  "version": "0.2.1",
   "description": "Bull provider for adonis js",
   "main": "Providers/AdonisBullProvider.js",
   "repository": {
