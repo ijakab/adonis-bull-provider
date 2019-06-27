@@ -1,6 +1,7 @@
 const Config = use('Config')
 const bull = require('bull')
 const {getQueueName, getQueueConfig} = use('Queue/Helpers')
+const instances = use('Queue/Instances')
 
 class BaseQueue {
     static get redis() {
@@ -14,6 +15,8 @@ class BaseQueue {
         let queue = new bull(name, config)
         if(this.handle) queue.process(this.handle)
         if(this.completed) queue.on('completed', this.completed)
+        
+        instances.push(queue)
         return queue
     }
 }

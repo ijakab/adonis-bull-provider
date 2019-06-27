@@ -13,6 +13,9 @@ class AdonisBullProvider extends ServiceProvider {
         this.app.bind('Queue', () => {
             return require('../src/Service')
         })
+        this.app.bind('Queue/Instances', () => {
+            return require('../src/QueueInstances')
+        })
     }
 
     async boot () {
@@ -39,7 +42,8 @@ class AdonisBullProvider extends ServiceProvider {
             }
             
             Handler.fileName = queue
-            await Handler.createQueue() //this will probably not be async function
+            let queue = await Handler.createQueue() //this will probably not be async function
+            await queue.close()
         }
     }
 }

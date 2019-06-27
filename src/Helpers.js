@@ -1,5 +1,6 @@
 const Config = use('Config')
 const Helpers = use('Helpers')
+const instances = use('Queue/Instances')
 
 let BullHelper = {
     getQueueName(fileName) {
@@ -29,6 +30,12 @@ let BullHelper = {
     getQueueHandler(fileName) {
         return require(`${BullHelper.getQueueDir()}/${fileName}`)
     },
+    
+    async closeAll() {
+        for(let instance of instances) {
+            await instance.close()
+        }
+    }
 }
 
 module.exports = BullHelper
