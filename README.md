@@ -49,7 +49,7 @@ Inside queue directory (defaults to `app/Queues` make handlers. handlers look li
 const BaseQueue = use('Queue/BaseQueue')
 
 class SampleQueue extends BaseQueue {
-    static get redis() {return 'local'} //optional, if you want to use different redis conection
+    
     
     static async handle(payload) {
         console.log('testing handle', payload.data)
@@ -63,6 +63,18 @@ class SampleQueue extends BaseQueue {
 
 module.exports = SampleQueue
 
+```
+
+Besides these, you can also add:
+```javascript
+    static get redis() {return 'local'} //optional, if you want to use different redis conection
+    
+    static get config() {return {}} //optional, custom config for queue creation. See this in bull documentation
+    
+    static createQueue() {
+        //NOT RECOMMENDED!!! Override way of creating queue.
+        return super.createQueue()
+    }
 ```
 
 When adding job:
