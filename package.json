@@ -1,0 +1,31 @@
+{
+  "name": "adonis-bull-provider",
+  "version": "0.0.1",
+  "description": "Bull provider for adonis js",
+  "main": "Providers/AdonisBullProvider.js",
+  "repository": {
+    "type": "github",
+    "url": "https://github.com/ijakab/adonis-bull-provider"
+  },
+  "keywords": [
+    "elastic",
+    "elasticsearch",
+    "adonis",
+    "node",
+    "elastic-lucide"
+  ],
+  "author": "Ivan Jakab",
+  "license": "UNLICENCED",
+  "bugs": {
+    "url": ""
+  },
+  "homepage": "",
+  "dependencies": {
+    "bull": "3.10.0",
+    "fs-extra": "^8.0.1"
+  },
+  "devDependencies": {
+    "@adonisjs/fold": "^4.0.9",
+    "@adonisjs/sink": "^1.0.16"
+  }
+}
