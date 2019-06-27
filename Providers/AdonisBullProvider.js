@@ -42,8 +42,7 @@ class AdonisBullProvider extends ServiceProvider {
             }
             
             Handler.fileName = queue
-            let queue = await Handler.createQueue() //this will probably not be async function
-            await queue.close()
+            await Handler.createQueue() //this will probably not be async function
         }
     }
 }
