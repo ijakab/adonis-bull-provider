@@ -50,12 +50,12 @@ const BaseQueue = use('Queue/BaseQueue')
 
 class SampleQueue extends BaseQueue {
     
-    static async handle(payload) {
+    static async handle(payload) { // optional
         console.log('testing handle', payload.data)
         return 'test'
     }
     
-    static async completed(payload ) {
+    static async completed(payload ) { // optional
         console.log('completed ', payload.data, payload.returnvalue)
     }
 }
@@ -66,6 +66,9 @@ module.exports = SampleQueue
 
 Besides these, you can also add:
 ```javascript
+    static get key() {return 'key_test'}
+    //optional. By default, key will be file name. you can override it like here. make sure it is unique. if prefix is specified, it will be applied to this
+
     static get redis() {return 'local'} //optional, if you want to use different redis conection
     
     static get config() {return {}} //optional, custom config for queue creation. See this in bull documentation
@@ -85,6 +88,20 @@ When adding job:
 ```
 
 Queues are registered automatically on server start, so if you restart server jobs will be completed
+
+## closeAll
+
+When you register this provider, problem will arise: ace commands will not exit. That happens because redis connections are not closed. For that reason (or for any reason tou might need) you may call closeAll() method.
+
+Inside `start/hooks.js`
+```javascript
+hooks.before.aceCommand(async () => {
+    const {closeAll} = use('Queue/Helpers')
+    await closeAll()
+})
+```
+
+*Note* If tou have overridden createQueue method on Queue handlers, this may not work properly
 
 ## Thanks
 

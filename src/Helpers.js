@@ -5,7 +5,9 @@ const instances = use('Queue/Instances')
 let BullHelper = {
     getQueueName(fileName) {
         let prefix = Config.get('bull.prefix')
-        return  prefix ? `${prefix}_${fileName}` : fileName
+        let Handler = BullHelper.getQueueHandler(fileName)
+        let name = Handler.key || fileName
+        return  prefix ? `${prefix}_${name}` : name
     },
     
     getQueueConfig(fileName) {
