@@ -11,10 +11,26 @@ class BaseQueue {
     static createQueue() {
         let config = getQueueConfig(this.fileName)
         let name = getQueueName(this.fileName)
-    
+        
         let queue = new bull(name, config)
-        if(this.handle) queue.process(this.handle)
-        if(this.completed) queue.on('completed', this.completed)
+        if(this.handle) {
+            if(this.eventName) {
+                queue.process((payload) => {
+                    if(payload.name === this.eventName) this.handle(payload)
+                })
+            } else {
+                queue.process(this.handle)
+            }
+        }
+        if(this.completed) {
+            if(this.eventName) {
+                queue.on('completed', (payload) => {
+                    if(payload.name === this.eventName) this.completed(payload)
+                })
+            } else {
+                queue.on('completed', this.completed)
+            }
+        }
         
         instances.push(queue)
         return queue
