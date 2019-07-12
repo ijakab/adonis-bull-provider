@@ -15,11 +15,11 @@ class BaseQueue {
         let queue = new bull(name, config)
         if(this.handle) {
             if(this.eventName) {
-                queue.process((payload) => {
+                queue.process('*', (payload) => {
                     if(payload.name === this.eventName) this.handle(payload)
                 })
             } else {
-                queue.process(this.handle)
+                queue.process('*', this.handle)
             }
         }
         if(this.completed) {
