@@ -69,6 +69,8 @@ Besides these, you can also add:
     static get key() {return 'key_test'}
     //optional. By default, key will be file name. you can override it like here. make sure it is unique. if prefix is specified, it will be applied to this
 
+    static get eventName() {return 'message_sent'} //handle only specific events
+
     static get redis() {return 'local'} //optional, if you want to use different redis conection
     
     static get config() {return {}} //optional, custom config for queue creation. See this in bull documentation
