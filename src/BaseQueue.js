@@ -13,22 +13,24 @@ class BaseQueue {
         let name = getQueueName(this.fileName)
         
         let queue = new bull(name, config)
-        if(this.handle) {
+        let instance = new this()
+        
+        if(instance.handle) {
             if(this.eventName) {
                 queue.process('*', (payload) => {
-                    if(payload.name === this.eventName) this.handle(payload)
+                    if(payload.name === this.eventName) instance.handle(payload)
                 })
             } else {
                 queue.process('*', this.handle)
             }
         }
-        if(this.completed) {
+        if(instance.completed) {
             if(this.eventName) {
                 queue.on('completed', (payload) => {
-                    if(payload.name === this.eventName) this.completed(payload)
+                    if(payload.name === this.eventName) instance.completed(payload)
                 })
             } else {
-                queue.on('completed', this.completed)
+                queue.on('completed', instance.completed)
             }
         }
         

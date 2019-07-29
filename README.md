@@ -50,12 +50,12 @@ const BaseQueue = use('Queue/BaseQueue')
 
 class SampleQueue extends BaseQueue {
     
-    static async handle(payload) { // optional
+    async handle(payload) { // optional
         console.log('testing handle', payload.data)
         return 'test'
     }
     
-    static async completed(payload ) { // optional
+    async completed(payload ) { // optional
         console.log('completed ', payload.data, payload.returnvalue)
     }
 }
