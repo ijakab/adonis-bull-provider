@@ -30,10 +30,16 @@ class AdonisBullProvider extends ServiceProvider {
             }
         }
         
-        let queues = await fs.readdir(getQueueDir())
+        try {
+            var queues = await fs.readdir(getQueueDir())
+        } catch (e) {
+            return //directory does not exist
+        }
+        
         
         const BaseQueue = use('Queue/BaseQueue')
         for(let queue of queues) {
+            if(!queue.endsWith('.js')) continue
             let Handler = getQueueHandler(queue)
             let debugInstance = new Handler()
             if(!(debugInstance instanceof BaseQueue)) throw {
