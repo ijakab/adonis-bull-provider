@@ -14,25 +14,11 @@ class BaseQueue {
         
         let queue = new bull(name, config)
         let instance = new this()
-        
-        if(instance.handle) {
-            if(this.eventName) {
-                queue.process('*', (payload) => {
-                    if(payload.name === this.eventName) instance.handle(payload)
-                })
-            } else {
-                queue.process('*', this.handle)
-            }
-        }
-        if(instance.completed) {
-            if(this.eventName) {
-                queue.on('completed', (payload) => {
-                    if(payload.name === this.eventName) instance.completed(payload)
-                })
-            } else {
-                queue.on('completed', instance.completed)
-            }
-        }
+    
+        queue.process('*', (payload) => {
+            if(payload.name && instance[payload.name]) return instance[payload.name](payload)
+            if(instance.defaultHandle) return instance.defaultHandle(payload)
+        })
         
         instances.push(queue)
         return queue
