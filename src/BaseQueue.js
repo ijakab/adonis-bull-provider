@@ -22,7 +22,6 @@ class BaseQueue {
             if(instance.defaultHandle) return instance.defaultHandle(payload)
         })
         
-        instances.push(queue)
         return queue
     }
 }
