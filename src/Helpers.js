@@ -34,8 +34,8 @@ let BullHelper = {
     },
     
     async closeAll() {
-        for(let instance of instances) {
-            await instance.close()
+        for(let queueName of Object.keys(instances)) {
+            await instances[queueName].close()
         }
     }
 }
