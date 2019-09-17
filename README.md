@@ -50,13 +50,20 @@ const BaseQueue = use('Queue/BaseQueue')
 
 class SampleQueue extends BaseQueue {
     
-    async handle(payload) { // optional
-        console.log('testing handle', payload.data)
-        return 'test'
+    static get key() {
+        return 'queueName'
     }
     
-    async completed(payload ) { // optional
-        console.log('completed ', payload.data, payload.returnvalue)
+    async eventName(payload) {
+        //handle jobs with name 'eventName'
+    }
+    
+    async anotherEventName() {
+        //handle jobs with name 'anotherEventName'
+    }
+    
+    async defaultHandle(payload ) { 
+        //if method with job name is not fond this is executed
     }
 }
 
@@ -66,10 +73,6 @@ module.exports = SampleQueue
 
 Besides these, you can also add:
 ```javascript
-    static get key() {return 'key_test'}
-    //optional. By default, key will be file name. you can override it like here. make sure it is unique. if prefix is specified, it will be applied to this
-
-    static get eventName() {return 'message_sent'} //handle only specific events
 
     static get redis() {return 'local'} //optional, if you want to use different redis conection
     
