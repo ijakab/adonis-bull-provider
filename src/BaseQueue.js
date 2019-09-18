@@ -9,12 +9,7 @@ class BaseQueue {
     }
     
     static createQueue() {
-        let config = getQueueConfig(this.fileName)
-        let name = getQueueName(this.fileName)
-        
-        if(!instances[name]) instances[name] = new bull(name, config)
-        let queue = instances[name]
-        
+        let queue = this.getQueueInstance()
         let instance = new this()
     
         queue.process('*', (payload) => {
@@ -23,6 +18,16 @@ class BaseQueue {
         })
         
         return queue
+    }
+    
+    static getQueueInstance() {
+        let name = getQueueName(this.fileName)
+    
+        if(!instances[name]) {
+            let config = getQueueConfig(this.fileName)
+            instances[name] = new bull(name, config)
+        }
+        return instances[name]
     }
 }
 
