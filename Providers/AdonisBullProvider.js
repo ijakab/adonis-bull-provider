@@ -53,6 +53,7 @@ class AdonisBullProvider extends ServiceProvider {
 
       Handler.fileName = queue;
       if (onBoot) Handler.createQueue();
+      else await Handler.getQueueInstance().close();
     }
   }
 }
