@@ -123,7 +123,7 @@ class Listen extends Command {
     this.bullListener(queues);
     Logger.info("Bull is listening");
     if (arena) {
-      this.ui(queues, redisConfig);
+      this.ui(queues, redisConfig, bullConfig);
     }
   }
 }
