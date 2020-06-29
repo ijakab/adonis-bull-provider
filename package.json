@@ -22,7 +22,9 @@
   "homepage": "",
   "dependencies": {
     "bull": "3.10.0",
-    "fs-extra": "^8.0.1"
+    "fs-extra": "^8.0.1",
+    "bull-arena": "^2.6.3",
+    "express-basic-auth": "^1.2.0"
   },
   "devDependencies": {
     "@adonisjs/fold": "^4.0.9",

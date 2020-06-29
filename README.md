@@ -12,6 +12,11 @@ const providers = [
     //...
     'adonis-bull-provider/Providers/AdonisBullProvider'
 ]
+
+const aceProviders = [
+    //...
+    'adonis-bull-provider/Providers/AdonisBullCommand' // if you want run queue with a command
+]
 ```
 
 3. make `config/redis.js` as per instructions [here](https://adonisjs.com/docs/4.1/redis)
@@ -28,13 +33,18 @@ module.exports = {
     },
 }
 ```
-4. add bull configuration *(optional)*
+4. add `config/bull.js` configuration *(optional)*
 
 ```javascript
 module.exports = {
-    // prefix: 'prefix' // prefix all queues if multiple projects use same database
-    // defaultRedis: 'local' //as defined in config/redis.js. Can be overridden for each queue. Defaults to local
-    // queueDirectory: 'app/Queues,, //where are your queue files, defaults to this value
+    prefix: 'prefix', // prefix all queues if multiple projects use same database
+    defaultRedis: 'local', // as defined in config/redis.js. Can be overridden for each queue. Defaults to local
+    queueDirectory: 'app/Queues', //where are your queue files, defaults to this value,
+    onBoot: true, // to determine whether to automatically register queues or not
+    arenaPrefix: '', // prefix for bull-arena if you include it
+    arenaUser: 'admin', // used for auth on bull-arena server
+    arenaPassword: '' // used for auth on bull-arena server
+    arenaPort: 1212 // port used to serve bull-arena
 }
 ```
 Done!
@@ -92,7 +102,31 @@ When adding job:
     return {}
 ```
 
-Queues are registered automatically on server start, so if you restart server jobs will be completed
+## Starting Queues
+
+Queues are registered automatically on server start by default. But you can include `onBoot: false`  in  `config/bull.js` to disable automatic registration.
+
+If you disable automatic registration, it means you want to use the command option instead.
+
+### Using Adonis command to start queues
+
+Use this command to start the queues:
+
+```sh
+adonis queue:listen
+```
+
+To also run [bull-arena](https://github.com/bee-queue/arena) alongside, add `--arena`
+
+```sh
+adonis queue:listen --arena
+```
+
+bull-arena will run on the port you specify with `arenaPort` (defaults to `1212`) in `config/bull.js`.
+
+## Exceptions
+
+To handle errors, define `onError(error, payload)` method on your queues. It'll be called if an error occurs while processing a job
 
 ## closeAll
 
@@ -106,8 +140,8 @@ hooks.before.aceCommand(async () => {
 })
 ```
 
-*Note* If tou have overridden createQueue method on Queue handlers, this may not work properly
+*Note* If you have overridden createQueue method on Queue handlers, this may not work properly
 
 ## Thanks
 
-Special thanks to creators of adonis.js and bull
+Special thanks to creators of AdonisJs and bull
