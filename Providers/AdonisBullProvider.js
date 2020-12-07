@@ -37,7 +37,7 @@ class AdonisBullProvider extends ServiceProvider {
       return; //directory does not exist
     }
 
-    let onBoot = Config.get("bull").onBoot;
+    let onBoot = Config.get("bull.onBoot");
     if (onBoot == undefined || onBoot == null) onBoot = true;
 
     const BaseQueue = use("Queue/BaseQueue");
