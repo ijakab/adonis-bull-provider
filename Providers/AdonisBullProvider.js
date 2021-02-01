@@ -19,6 +19,16 @@ class AdonisBullProvider extends ServiceProvider {
   }
 
   async boot() {
+    try {
+      if (process.env.GCR_DOMAIN)  {
+        const Redis = require("ioredis");
+        Redis.prototype.client = function() {}  // "client" not available on GCP redis
+      }
+    } catch (e) {
+      console.error(e)
+    }
+    
+    
     const Config = use("Config");
     const { getQueueDir, getQueueHandler } = use("Queue/Helpers");
 
